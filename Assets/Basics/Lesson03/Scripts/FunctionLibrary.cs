@@ -15,8 +15,24 @@ using static UnityEngine.Mathf;
 
 namespace Basics.Lesson03
 {
+    public delegate float Function(float x, float t);
+
+    public enum FunctionName
+    {
+        Wave,
+        MultiWave,
+        Ripple
+    }
+
     public static class FunctionLibrary
     {
+        private static Function[] functions = new Function[] { Wave, MultiWave, Ripple };
+
+        public static Function GetFunction(FunctionName name)
+        {
+            return functions[(int)name];
+        }
+
         public static float Wave(float x, float t)
         {
             return Sin(PI * (x + t));

@@ -19,7 +19,7 @@ namespace Basics.Lesson03
     {
         [SerializeField] private Transform pointPrefab;
         [SerializeField, Range(1, 100)] private int resolution = 10;
-        [SerializeField, Range(0, 2)] private int waveType = 0;
+        [SerializeField] private FunctionName waveType;
 
         private Transform[] points;
 
@@ -52,18 +52,11 @@ namespace Basics.Lesson03
         private void Update()
         {
             var time = Time.time;
+            var func = FunctionLibrary.GetFunction(waveType);
             foreach (var point in points)
             {
                 var position = point.localPosition;
-
-                position.y = waveType switch
-                {
-                    0 => FunctionLibrary.Wave(position.x, time),
-                    1 => FunctionLibrary.MultiWave(position.x, time),
-                    2 => FunctionLibrary.Ripple(position.x, time),
-                    _ => position.y
-                };
-
+                position.y = func(position.x, time);
                 point.localPosition = position;
             }
         }
