@@ -11,7 +11,6 @@
 // ==============================================
 // *************************************************************************************
 
-using System;
 using UnityEngine;
 
 namespace Basics.Lesson03
@@ -20,6 +19,7 @@ namespace Basics.Lesson03
     {
         [SerializeField] private Transform pointPrefab;
         [SerializeField, Range(1, 100)] private int resolution = 10;
+        [SerializeField, Range(0, 2)] private int waveType = 0;
 
         private Transform[] points;
 
@@ -55,7 +55,15 @@ namespace Basics.Lesson03
             foreach (var point in points)
             {
                 var position = point.localPosition;
-                position.y = FunctionLibrary.MultiWave(position.x, time);
+
+                position.y = waveType switch
+                {
+                    0 => FunctionLibrary.Wave(position.x, time),
+                    1 => FunctionLibrary.MultiWave(position.x, time),
+                    2 => FunctionLibrary.Ripple(position.x, time),
+                    _ => position.y
+                };
+
                 point.localPosition = position;
             }
         }
