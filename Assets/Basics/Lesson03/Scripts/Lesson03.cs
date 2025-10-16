@@ -39,7 +39,7 @@ namespace Basics.Lesson03
             for (var i = 0; i < points.Length; i++)
             {
                 position.x = (i + 0.5f) * step - 1.0f;
-                position.y = FunctionLibrary.Wave(position.x, 0.0f);
+                position.y = 0;
 
                 var point = Instantiate(pointPrefab, transform, false);
                 point.localScale = scale;
@@ -55,7 +55,7 @@ namespace Basics.Lesson03
             foreach (var point in points)
             {
                 var position = point.localPosition;
-                position.y = FunctionLibrary.Wave(position.x, time);
+                position.y = FunctionLibrary.MultiWave(position.x, time);
                 point.localPosition = position;
             }
         }
