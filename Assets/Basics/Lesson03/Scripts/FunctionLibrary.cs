@@ -15,7 +15,7 @@ using static UnityEngine.Mathf;
 
 namespace Basics.Lesson03
 {
-    public delegate float Function(float x, float t);
+    public delegate float Function(float x, float z, float t);
 
     public enum FunctionName
     {
@@ -33,25 +33,27 @@ namespace Basics.Lesson03
             return functions[(int)name];
         }
 
-        public static float Wave(float x, float t)
+        private static float Wave(float x, float z, float t)
         {
-            return Sin(PI * (x + t));
+            return Sin(PI * (x + z + t));
         }
 
-        public static float MultiWave(float x, float t)
+        private static float MultiWave(float x, float z, float t)
         {
             // var y = Sin(PI * (x + t));
             var y = Sin(PI * (x + 0.5f * t));
-            y += 0.5f * Sin(2f * PI * (x + t));
-            return y * (2f / 3f);
+            // y += 0.5f * Sin(2f * PI * (x + t));
+            y += 0.5f * Sin(2f * PI * (z + t));
+            y += Sin(PI * (x + z + 0.25f * t));
+            return y * (1f / 2.5f);
         }
 
-        public static float Ripple(float x, float t)
+        private static float Ripple(float x, float z, float t)
         {
-            var d = Abs(x);
+            var d = Sqrt(x * x + z * z);
             // var y = Sin(4f * PI * d);
             var y = Sin(PI * (4f * d - t));
-            return y / (1f + 20f * d);
+            return y / (1f + 10f * d);
         }
     }
 }

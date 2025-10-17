@@ -19,7 +19,7 @@ Shader "Jacky/Basics/Lesson03"
 
         void ConfigureSurface(Input input, inout SurfaceOutputStandard output)
         {
-            output.Albedo.rg = saturate(input.worldPos.xy * 0.5 + 0.5);
+            output.Albedo = saturate(input.worldPos * 0.5 + 0.5);
             output.Smoothness = _Smoothness;
         }
         ENDCG
