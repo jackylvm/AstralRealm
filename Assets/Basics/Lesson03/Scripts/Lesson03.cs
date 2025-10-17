@@ -33,25 +33,12 @@ namespace Basics.Lesson03
         {
             var step = 2.0f / resolution;
             var scale = Vector3.one * step;
-            var position = Vector3.zero;
 
             points = new Transform[resolution * resolution];
-            for (int i = 0, x = 0, z = 0; i < points.Length; i++, x++)
+            for (var i = 0; i < points.Length; i++)
             {
-                if (x == resolution)
-                {
-                    x = 0;
-                    z++;
-                }
-
-                position.x = (x + 0.5f) * step - 1.0f;
-                position.z = (z + 0.5f) * step - 1.0f;
-                position.y = 0;
-
                 var point = Instantiate(pointPrefab, transform, false);
                 point.localScale = scale;
-                point.localPosition = position;
-
                 points[i] = point;
             }
         }
@@ -59,12 +46,20 @@ namespace Basics.Lesson03
         private void Update()
         {
             var time = Time.time;
+            var step = 2.0f / resolution;
+            var v = 0.5f * step - 1f;
             var func = FunctionLibrary.GetFunction(waveType);
-            foreach (var point in points)
+            for (int i = 0, x = 0, z = 0; i < points.Length; i++, x++)
             {
-                var position = point.localPosition;
-                position.y = func(position.x, position.z, time);
-                point.localPosition = position;
+                if (x == resolution)
+                {
+                    x = 0;
+                    z++;
+                    v = (z + 0.5f) * step - 1f;
+                }
+
+                var u = (x + 0.5f) * step - 1f;
+                points[i].localPosition = func(u, v, time);
             }
         }
     }
